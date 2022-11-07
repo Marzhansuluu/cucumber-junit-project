@@ -11,43 +11,50 @@ import org.openqa.selenium.TakesScreenshot;
 
 public class Hooks {
 
-    //import from io.cucumber.java not from junit
-    @Before(order = 0)
-    public void setUpScenario(){
-        System.out.println("===Setting up browser using cucumber @Before");
-    }
-    @Before(value = "@login", order = 1)
-    public void setUpScenarioForLogin(){
-        System.out.println("===this will only apply to scenario with @login tag");
-    }
-
-    @Before(value = "@db", order = 0)
-    public void setupForDatabaseScenario(){
-        System.out.println("===");
-    }
 
     @After
-    public void tearDownScenario(Scenario scenario){
+    public void teardownScenario(Scenario scenario){
+        // We will implement taking screenshot in this method
+        //System.out.println("It will be closing browser using cucumber @After each scenario");
 
-        //scenario.isFailed()--> if scenario fails this method will return TRUE boolean value.
-        if(scenario.isFailed()) {//fail=true passed=false
-            byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", scenario.getName());
+        if(scenario.isFailed()){
+
+            byte [] screenshot = ((TakesScreenshot)Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot,"image/png",scenario.getName());
+
         }
+
         Driver.closeDriver();
-//        System.out.println("===Closing browser using cucumber @After");
-//        System.out.println("========Scenario ended/ Take screenshot is failed");
     }
 
 
-    @BeforeStep
-    public void setupSte(){
-        System.out.println("---------------applying setup using @BeforeStep");
 
+    //@Before
+    public void setupScenario(){
+        System.out.println("Setting up browser using cucumber @Before each scenario");
+        Driver.getDriver().get("URL of your app");
     }
 
-    @AfterStep
+
+    //@Before (value = "@login", order=2)
+    public void setupForLogin(){
+        // If you want any code to run before any specific feature/scenario,
+        // you can use value= "@tagName" to determine this
+        System.out.println("====this will only apply to scenarios with @login tag");
+    }
+
+    //@Before (value="@db" , order=3)
+    public void setupDatabaseScenario(){
+        System.out.println("====this will only apply to scenarios with @db tag");
+    }
+
+    //@BeforeStep
+    public void setupScenarioStep(){
+        System.out.println("--------> applying setup using @BeforeStep");
+    }
+
+    //@AfterStep
     public void afterStep(){
-        System.out.println("------->applying tearDown using @AfterStep");
+        System.out.println("--------> applying tearDown using @AfterStep");
     }
 }

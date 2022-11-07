@@ -15,7 +15,7 @@ Background: Use is on Wikipedia home page
     And User clicks wiki search button
     Then User sees "Steve Jobs" is in the main header
 
-  @scenarioOutline
+
     #burda ben Scenario yazilani surekli isimleri degistirerek arama yapmak, onun yerine biz Scenario Outline create
     #yaparak isim yazilan yerine <searchValue> yazip arama yapabiliriz. Yani repeat yapmaktan kurtuluiruz.
   Scenario Outline: Wikipedia Search Functionality Title Verification with using DDT
